@@ -3,7 +3,9 @@ package com.guofei.wu;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.SimpleAccountRealm;
 import org.apache.shiro.subject.Subject;
 import org.junit.Before;
@@ -54,5 +56,33 @@ public class ShiroAuthenticationTest {
         System.out.println("isAuthenticated: " + subject.isAuthenticated());
 
     }
+
+
+    /**
+     * 通过ini文件获取SecurityManager
+     */
+    @Test
+    public void authenticationTest2() {
+        // 构建security manager
+        IniSecurityManagerFactory factory = new IniSecurityManagerFactory("classpath:shiro/shiro.ini");
+        SecurityManager securityManager = factory.getInstance();
+
+        // 设置security manager
+        SecurityUtils.setSecurityManager(securityManager);
+
+        // 构建认证主体
+        Subject subject = SecurityUtils.getSubject();
+
+        // 构建认证的token
+        AuthenticationToken token = new UsernamePasswordToken("tom", "123");
+
+        subject.login(token);
+
+        System.out.println("isAuthenticated: " + subject.isAuthenticated());
+        subject.logout();
+        System.out.println("isAuthenticated: " + subject.isAuthenticated());
+
+    }
+
 
 }
