@@ -55,6 +55,8 @@ public class CustomRealm extends AuthorizingRealm {
         Set<String> permissions = new HashSet<String>();
         permissions.add("user:delete");
         permissions.add("user:select");
+        permissions.add("menu:delete");
+        permissions.add("menu:update");
         return permissions;
     }
 

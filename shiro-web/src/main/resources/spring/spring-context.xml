@@ -15,10 +15,9 @@
                 /subLogin = anon
                 /testRoles=roles["admin"]
                 /testRoles1=rolesOr["admin","admin1"]
-                <!--/testPermissions=perms["user:delete"]-->
-                <!--/testPermissions1=perms["user:delete","user:update"]-->
-
-
+                /testPermissions=perms["user:delete"]
+                <!--配置的方式说明需要这里两个权限-->
+                /testPermissions1=perms["menu:delete","menu:update"]
                 /* = authc
             </value>
         </property>
