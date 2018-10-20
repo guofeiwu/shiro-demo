@@ -8,7 +8,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,15 +58,22 @@ public class LoginController {
 
 
     /**
+     * @return
      * @RequiresPermissions(value = {"menu:delete","menu:update"})
      * 代码方式的说明访问此url需要"menu:delete","menu:update"两个权限
-     * @return
      */
-    @RequiresPermissions(value = {"menu:delete","menu:update"})
+    @RequiresPermissions(value = {"menu:delete", "menu:update"})
     @RequestMapping(value = "/testPermissions1", method = RequestMethod.GET)
     @ResponseBody
     public String testPermissions1() {
         return "test permissions1 success";
+    }
+
+
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String logout() {
+        SecurityUtils.getSubject().logout();
+        return "logout";
     }
 
 

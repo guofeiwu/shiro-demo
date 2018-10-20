@@ -11,8 +11,12 @@
         <property name="unauthorizedUrl" value="403.html"/>
         <property name="filterChainDefinitions">
             <value>
-                /login.html = anon
-                /subLogin = anon
+                /logout.jsp = anon
+                /logout = anon
+                <!--/welcome.html = anon-->
+                /login.html = formLogin
+                /index.html = formLogin
+                <!--/subLogin = anon-->
                 /testRoles=roles["admin"]
                 /testRoles1=rolesOr["admin","admin1"]
                 /testPermissions=perms["user:delete"]
@@ -24,11 +28,13 @@
         <property name="filters">
             <util:map>
                 <entry key="rolesOr" value-ref="rolesOrFilter"/>
+                <entry key="formLogin" value-ref="formLoginFilter"/>
             </util:map>
         </property>
     </bean>
 
     <bean class="com.guofei.wu.filter.RolesOrFilter" id="rolesOrFilter"/>
+    <bean class="com.guofei.wu.filter.FormLoginFilter" id="formLoginFilter"/>
 
 
     <!--创建securityManager对象-->
