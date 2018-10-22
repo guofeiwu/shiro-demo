@@ -10,6 +10,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -24,8 +25,10 @@ public class LoginController {
     @RequestMapping(value = "/subLogin", method = RequestMethod.POST)
     @ResponseBody
     public String subLogin(User user) {
+        System.out.println(user.toString());
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+        token.setRememberMe(user.isRememberMe());
         try {
             subject.login(token);
         } catch (AuthenticationException e) {
@@ -33,7 +36,6 @@ public class LoginController {
         }
         return "login success";
     }
-
 
     @RequiresRoles("admin")
     @RequestMapping(value = "/testRoles", method = RequestMethod.GET)

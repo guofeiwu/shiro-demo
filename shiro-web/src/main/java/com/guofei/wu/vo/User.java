@@ -37,4 +37,14 @@ public class User {
     public void setRememberMe(boolean rememberMe) {
         this.rememberMe = rememberMe;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", rememberMe=" + rememberMe +
+                '}';
+    }
 }
+

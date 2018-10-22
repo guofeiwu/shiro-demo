@@ -11,12 +11,13 @@
         <property name="unauthorizedUrl" value="403.html"/>
         <property name="filterChainDefinitions">
             <value>
+                /login1.html = anon
                 /logout.jsp = anon
                 /logout = anon
                 <!--/welcome.html = anon-->
                 /login.html = formLogin
                 /index.html = formLogin
-                <!--/subLogin = anon-->
+                /subLogin = anon
                 /testRoles=roles["admin"]
                 /testRoles1=rolesOr["admin","admin1"]
                 /testPermissions=perms["user:delete"]
@@ -40,6 +41,7 @@
     <!--创建securityManager对象-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="customRealm"/>
+        <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
 
     <bean class="com.guofei.wu.realm.CustomRealm" id="customRealm">
@@ -51,5 +53,24 @@
         <property name="hashIterations" value="1"/>
     </bean>
 
+
+    <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+    </bean>
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="2592000"/><!-- 30天 -->
+    </bean>
+
+    <!-- rememberMe管理器 -->
+    <bean id="rememberMeManager"
+          class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+        <property name="cookie" ref="sessionIdCookie"/>
+    </bean>
 
 </beans>
